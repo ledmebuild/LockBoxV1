@@ -1,0 +1,10 @@
+# PlatformIO
+.pio/
+.vscode/
+*.pyc
+__pycache__/
+*.elf
+*.bin
+*.hex
+*.exe
+.DS_Store
