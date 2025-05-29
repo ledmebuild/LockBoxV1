@@ -6,11 +6,12 @@ int myFunction(int, int);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  delay(100);
+  Serial.flush(); // diese Zeile ist vom Surface
   int result = myFunction(2, 3);
   Serial.println("Result of myFunction(2, 3): ");
   Serial.println(result);
   Serial.println("Setup complete.");
+  
 }
 
 void loop() {
