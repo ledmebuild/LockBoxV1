@@ -1,5 +1,9 @@
 #include <Arduino.h>
 #include "display.h"
+#include "encoder.h"
+#include "light.h"
+#include "lock.h"
+
 // put function declarations here:
 int myFunction(int, int);
 
