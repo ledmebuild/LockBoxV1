@@ -25,8 +25,6 @@ public:
     void showputbackphone();
     void showlistfootnote(const std::string& optionA, const std::string& optionB, int selectedOption);
     
-    // Additional utility methods
-    void init();
 };
 
 #endif
