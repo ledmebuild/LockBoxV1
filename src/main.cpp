@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+#include "display.h"
 // put function declarations here:
 int myFunction(int, int);
 
