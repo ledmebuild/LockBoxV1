@@ -1,10 +1,16 @@
-#include <Arduino.h>
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include "SH1106Wire.h" // Include header here
+#include <Arduino.h>
+
 class Display {
 private:
-    // Private member variables if needed
+  //Display library instance
+  SH1106Wire dis; // Make dis a private member
+  // Breite und Höhe des Displays
+  int screenWidth = 128;
+  int screenHeight = 64;
     
 public:
     // Constructor
@@ -16,7 +22,7 @@ public:
     // Public methods
     void clear();
     void showmenulist(const std::string& optionA, const std::string& optionB, int selectedOption);
-    void showtime(short hours, short minutes, short seconds);
+    void showtime(short hours, short minutes);
     void showheading(const std::string& heading);
     void showfootnote(const std::string& footnote);
     void showlocking();

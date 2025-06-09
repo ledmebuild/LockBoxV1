@@ -25,5 +25,5 @@ public:
     void setBrightness(int brightness); // Set the brightness level (0-255)
     void turnOn(); // Turn on the light
     void turnOff(); // Turn off the light
-    };
+};
 #endif
