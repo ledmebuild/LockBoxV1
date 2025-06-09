@@ -8,4 +8,3 @@ __pycache__/
 *.hex
 *.exe
 .DS_Store
-lib/
