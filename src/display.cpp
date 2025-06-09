@@ -130,11 +130,16 @@ void Display::showfootnote(const std::string& footnote) {
 // Show locking animation/message
 void Display::showlocking() {
     // TODO: Display locking status or animation
+    dis.drawXbm(0, 0, 128, 64, locked_bitmap); // assuming your bitmap is 128x64
+    dis.display();
 }
+
 
 // Show unlocking animation/message
 void Display::showunlocking() {
     // TODO: Display unlocking status or animation
+    dis.drawXbm(0, 0, 128, 64, unlocked_bitmap); // assuming your bitmap is 128x64
+    dis.display();
 }
 
 // Show game selection interface
