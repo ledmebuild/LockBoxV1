@@ -47,7 +47,13 @@ void Display::showmenulist(const std::string& optionA, const std::string& option
 // Display current time
 void Display::showtime(short hours, short minutes) {
     dis.setFont(ArialMT_Plain_24);
-
+    
+    // Zuererst Berreich löschen
+    dis.setColor(BLACK);
+    dis.fillRect(0, 22, 128, 28); // Clear the entire display area
+    dis.display(); // Update the display to show the cleared area
+    dis.setColor(WHITE); // Set color for the digits
+    
     // Helper function to draw a digit with background
     auto drawDigit = [&](int digit, int x, int y) {
         String digitStr = String(digit);
@@ -88,12 +94,37 @@ void Display::showtime(short hours, short minutes) {
 
 // Show heading text
 void Display::showheading(const std::string& heading) {
-    // TODO: Display heading at top of screen
+    // Display heading at top of screen
+    dis.setFont(ArialMT_Plain_16);
+    dis.setColor(BLACK);
+    dis.fillRect(0, 0, 128, 18); // Clear the top area for the heading
+    dis.setColor(WHITE);
+    
+    // Center the heading text
+    int textWidth = dis.getStringWidth(heading.c_str());
+    int x = (128 - textWidth) / 2;
+    
+    // Draw the heading text
+    dis.drawString(x, 0, String(heading.c_str()));
+    dis.display();
+  
 }
 
 // Show footnote text
 void Display::showfootnote(const std::string& footnote) {
-    // TODO: Display footnote at bottom of screen
+    // Display footnote at bottom of screen
+    dis.setFont(ArialMT_Plain_10); // Small font for footnote
+    dis.setColor(BLACK);
+    dis.fillRect(0, 52, 128, 12); // Clear the bottom area for the footnote
+    dis.setColor(WHITE);
+    
+    // Center the footnote text
+    int textWidth = dis.getStringWidth(footnote.c_str());
+    int x = (128 - textWidth) / 2;
+    
+    // Draw the footnote text
+    dis.drawString(x, 52, String(footnote.c_str()));
+    dis.display();
 }
 
 // Show locking animation/message
@@ -118,5 +149,22 @@ void Display::showputbackphone() {
 
 // Show list footnote with options
 void Display::showlistfootnote(const std::string& optionA, const std::string& optionB, int selectedOption) {
-    // TODO: Display footnote with navigation options
+    dis.setFont(ArialMT_Plain_10); // Small font for footnote
+    dis.setColor(BLACK);
+    dis.fillRect(0, 52, 128, 12); // Clear the bottom area for the footnote
+    dis.setColor(WHITE);
+
+    std::string combinedText;
+    if(selectedOption == 0) {
+        combinedText = ">" + optionA + "  " + "  " + optionB;
+    } else {
+        combinedText = "  " + optionA + "  " + ">" + optionB;
+    }
+    // Center the footnote text
+    int textWidth = dis.getStringWidth(combinedText.c_str());
+    int x = (128 - textWidth) / 2;
+    
+    // Draw the footnote text
+    dis.drawString(x, 52, String(combinedText.c_str()));
+    dis.display();
 }

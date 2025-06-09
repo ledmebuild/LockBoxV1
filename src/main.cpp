@@ -13,10 +13,12 @@ void setup() {
   
   //------------ Display Test---------------------
   display = new Display(); // Initialize the display
+  display->showheading("Headline"); // Show heading
+  display->showlistfootnote("OptionA", "OptionB", 1); // Show list footnote with options
+  //display->showfootnote("footnote"); // Show footnote
   for(int i = 0; i < 10; i++) {
-    display->clear(); // Clear the display
     display->showtime(19, i); // Display the time
-    delay(1000); // Wait for 1 second
+    delay(500); // Wait for 1 second
   }
   //------------Ende Display Test-----------------
 }
@@ -36,6 +38,11 @@ void loop() {
   if(currentPosition != lastCounter){
     Serial.println(currentPosition);
     lastCounter = currentPosition;
+    if(currentPosition%2 == 0){
+      display->showlistfootnote("OptionA", "OptionB", 0); // Show list footnote with options
+    }else{
+      display->showlistfootnote("OptionA", "OptionB", 1); // Show list footnote with options
+    }
   }
   //-------------Ende Encoder Test-----------------
 
