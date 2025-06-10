@@ -20,7 +20,17 @@ void setup() {
   delay(2000); // Wait for 2 seconds
   display->clear(); // Clear the display
   display->showunlocking(); // Show unlocking animation/message
-
+  delay(2000); // Wait for 2 seconds
+  display->clear(); // Clear the display
+  display->showputbackphone(); // Show put back phone message
+  delay(2000); // Wait for 2 seconds
+  display->clear(); // Clear the display
+  display->showheading("Menu"); // Show heading
+  display->showmenulist("Pomodoro", "Time Lock", 0); // Show list footnote with options
+  delay(2000); // Wait for 2 seconds
+  display->clear(); // Clear the display
+  display->showheading("Unlock Game"); // Show heading
+  
   /*
   delay(4000); // Wait for 1 second
   //display->showfootnote("footnote"); // Show footnote
@@ -48,9 +58,9 @@ void loop() {
     Serial.println(currentPosition);
     lastCounter = currentPosition;
     if(currentPosition%2 == 0){
-      display->showlistfootnote("OptionA", "OptionB", 0); // Show list footnote with options
+      display->showunlockgame(10, currentPosition, 3, 5); // Show game selection interface
     }else{
-      display->showlistfootnote("OptionA", "OptionB", 1); // Show list footnote with options
+      display->showunlockgame(10, currentPosition, 3, 5); // Show game selection interface
     }
   }
   //-------------Ende Encoder Test-----------------
