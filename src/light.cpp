@@ -1,8 +1,12 @@
 #include "light.h"
 
+#define PIN_NEO_PIXEL  16  // The ESP32 pin GPIO16 connected to NeoPixel
+#define NUM_PIXELS     1  // The number of LEDs (pixels) on NeoPixel
+
 // Constructor
-Light::Light() {
-    // TODO: Initialize light settings and hardware
+Light::Light():NeoPixel(NUM_PIXELS, PIN_NEO_PIXEL, NEO_GRB + NEO_KHZ800) {
+    NeoPixel.begin();  // initialize NeoPixel strip object (REQUIRED)
+    NeoPixel.clear();  // set all pixel colors to 'off'. It only takes effect if pixels.show() is called
 }
 
 // Destructor
@@ -32,14 +36,19 @@ void Light::setColor(RGB color) {
 void Light::setBrightness(int brightness) {
     // TODO: Set brightness level to hardware
     this->brightness = brightness;
+    
 }
 
 // Turn on the light
 void Light::turnOn() {
-    // TODO: Turn on the light with current color and brightness
+    NeoPixel.setBrightness(brightness);  // Set brightness level (0-255)
+    NeoPixel.setPixelColor(0, NeoPixel.Color(color.red, color.green, color.blue));  // Erste Variable für Pixelpositon, da ich nur einen habe hier 0, it only takes effect if pixels.show() is called
+    NeoPixel.show();
 }
 
 // Turn off the light
 void Light::turnOff() {
     // TODO: Turn off the light
+    NeoPixel.clear();  // Set all pixel colors to 'off'. It only takes effect if pixels.show() is called
+    NeoPixel.show();
 }
