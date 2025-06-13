@@ -23,7 +23,7 @@ public:
     void clear();
     void intro();	
     void showmenulist(const std::string& optionA, const std::string& optionB, int selectedOption);
-    void showtime(short hours, short minutes);
+    void showtime(short hours, short minutes, short seconds, short marked);
     void showheading(const std::string& heading);
     void showfootnote(const std::string& footnote);
     void showlocking();
@@ -31,7 +31,7 @@ public:
     void showunlockgame(int pos_traget, int pos_player, int num_rounds, int num_max_rounds);
     void showputbackphone();
     void showlistfootnote(const std::string& optionA, const std::string& optionB, int selectedOption);
-    void headline_time_footnote(const std::string& headline, short hours, short minutes, const std::string& footnote);
+    void headline_time_footnote(const std::string& headline, short hours, short minutes, short seconds, short marked, const std::string& footnote);
     void putbackphone_listfootnote(const std::string& optionA, const std::string& optionB, int selectedOption);
 };
 

@@ -79,52 +79,78 @@ void Display::showmenulist(const std::string& optionA, const std::string& option
 }
 
 // Display current time
-void Display::showtime(short hours, short minutes) {
-    dis.setFont(ArialMT_Plain_24);
+void Display::showtime(short hours, short minutes, short seconds, short marked = -1) {
+    dis.setFont(ArialMT_Plain_16); // Smaller font for better fit
     
-    // Zuererst Berreich löschen
+    // Clear the area
     dis.setColor(BLACK);
-    dis.fillRect(0, 22, 128, 28); // Clear the entire display area
-    dis.display(); // Update the display to show the cleared area
-    dis.setColor(WHITE); // Set color for the digits
+    dis.fillRect(0, 22, 128, 28); // Clear the display area
+    dis.display();
+    dis.setColor(WHITE);
     
     // Helper function to draw a digit with background
-    auto drawDigit = [&](int digit, int x, int y) {
+    auto drawDigit = [&](int digit, int x, int y, bool isDashed) {
         String digitStr = String(digit);
         int digitWidth = dis.getStringWidth(digitStr);
-        int rectWidth = 20; // Width of the rectangle
-        int rectHeight = 28; // Height of the rectangle
-        int padding = (rectWidth - digitWidth) / 2; // Calculate padding to center the digit
+        int rectWidth = 14; // Smaller rectangle width
+        int rectHeight = 20; // Smaller rectangle height
+        int padding = (rectWidth - digitWidth) / 2;
 
-        // Draw the background rectangle
-        dis.drawRect(x, y, rectWidth, rectHeight);
+        if (isDashed) {
+            // Draw dashed rectangle
+            for (int i = 0; i < rectWidth; i += 2) {
+                dis.setPixel(x + i, y);                     // Top horizontal line
+                dis.setPixel(x + i, y + rectHeight - 1);    // Bottom horizontal line
+            }
+            for (int i = 0; i < rectHeight; i += 2) {
+                dis.setPixel(x, y + i);                     // Left vertical line
+                dis.setPixel(x + rectWidth - 1, y + i);     // Right vertical line
+            }
+        } else {
+            // Draw solid rectangle
+            dis.drawRect(x, y, rectWidth, rectHeight);
+        }
 
         // Draw the digit centered in the rectangle
-        dis.drawString(x + padding, y, digitStr);
+        dis.drawString(x + padding, y + 1, digitStr); // +1 for vertical centering
     };
 
-    // Extract digits for hours
+    // Extract digits for hours, minutes, seconds
     int hourTens = hours / 10;
     int hourOnes = hours % 10;
-
-    // Extract digits for minutes
     int minuteTens = minutes / 10;
     int minuteOnes = minutes % 10;
+    int secondTens = seconds / 10;
+    int secondOnes = seconds % 10;
     
-    // Draw hours
-    drawDigit(hourTens, 20, 22); // Adjusted X and Y
-    drawDigit(hourOnes, 42, 22); // Adjusted X and Y
+    // Calculate starting position to center the entire time display
+    int totalWidth = 114; // Total width of all elements
+    int startX = (128 - totalWidth) / 2;
+    
+    // Draw hours with dashed rectangles if marked = 0
+    bool hoursAreDashed = (marked == 0);
+    drawDigit(hourTens, startX, 26, hoursAreDashed);
+    drawDigit(hourOnes, startX + 16, 26, hoursAreDashed);
 
-    // Draw colon
-    dis.drawString(66, 22, ":");
+    // Draw first colon
+    dis.drawString(startX + 32, 26, ":");
 
-    // Draw minutes
-    drawDigit(minuteTens, 74, 22); // Adjusted X and Y
-    drawDigit(minuteOnes, 96, 22); // Adjusted X and Y
+    // Draw minutes with dashed rectangles if marked = 1
+    bool minutesAreDashed = (marked == 1);
+    drawDigit(minuteTens, startX + 40, 26, minutesAreDashed);
+    drawDigit(minuteOnes, startX + 56, 26, minutesAreDashed);
+    
+    // Draw second colon
+    dis.drawString(startX + 72, 26, ":");
+    
+    // Draw seconds with dashed rectangles if marked = 2
+    bool secondsAreDashed = (marked == 2);
+    drawDigit(secondTens, startX + 80, 26, secondsAreDashed);
+    drawDigit(secondOnes, startX + 96, 26, secondsAreDashed);
 
     dis.display();
-    
 }
+
 
 // Show heading text
 void Display::showheading(const std::string& heading) {
@@ -237,9 +263,9 @@ void Display::showlistfootnote(const std::string& optionA, const std::string& op
 }
 
 // Show heading, time, and footnote together
-void Display::headline_time_footnote(const std::string& headline, short hours, short minutes, const std::string& footnote) {
+void Display::headline_time_footnote(const std::string& headline, short hours, short minutes, short seconds, short marked, const std::string& footnote) {
     showheading(headline);
-    showtime(hours, minutes);
+    showtime(hours, minutes, seconds, marked);
     showfootnote(footnote);
 }
 

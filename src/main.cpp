@@ -90,10 +90,14 @@ void setup() {
 
   // Main Menu
   Encoder encoder;
-
+  Light light; // Create an instance of the Light class
   Display display; // Create an instance of the Display class
+  light.setColor({0, 255, 0}); // Set the color of the light to green
+  light.setBrightness(255); // Set the brightness to 100%
+  light.turnOn(); // Turn on the light
   display.intro(); // Show the introduction screen
   display.showheading("Main Menu"); // Show main menu heading
+  int past_position = encoder.getPosition(); // Get the current position of the encoder
   while(encoder.getbuttonState() == false) { // Wait for button press
     if(encoder.getPosition() %2 == 0){
       display.showmenulist("Pomodoro", "Time Lock", 0); // Show Pomodoro and Time Lock options

@@ -10,7 +10,7 @@ volatile unsigned long Encoder::_lastDecReadTime = micros();
 volatile int Encoder::_pauseLength = 25000;
 volatile int Encoder::_fastIncrement = 10;
 volatile int Encoder::counter = 0;
-volatile const unsigned long Encoder::debounceDelay = 50; // 50ms Entprellzeit für Button
+volatile const unsigned long Encoder::debounceDelay = 100; // 100ms Entprellzeit für Button
 
 // Constructor
 Encoder::Encoder() {
