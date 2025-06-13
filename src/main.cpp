@@ -3,6 +3,7 @@
 #include "encoder.h"
 #include "light.h"
 #include "lock.h"
+#include "pomodoro.h"
 // Create instances of the Hardware
 //
 Display* display = nullptr;// Pointer to Display instance
@@ -12,8 +13,9 @@ void setup() {
   Serial.println("Setup complete.");
   
   //------------ Display Test---------------------
-  
+  /*
   display = new Display(); // Initialize the display
+  
   display->showheading("Headline"); // Show heading
   display->showlistfootnote("OptionA", "OptionB", 1); // Show list footnote with options
   display->clear();
@@ -32,16 +34,18 @@ void setup() {
   display->clear(); // Clear the display
   display->showheading("Unlock Game"); // Show heading
   
-  
-  delay(4000); // Wait for 1 second
+
+  delay(2000); // Wait for 2 seconds
+  /*
   //display->showfootnote("footnote"); // Show footnote
   for(int i = 0; i < 10; i++) {
     display->showtime(19, i); // Display the time
     delay(500); // Wait for 1 second
   }
-    
-  //------------Ende Display Test-----------------
+  */
 
+  //------------Ende Display Test-----------------
+/*
   //------------ Light Test---------------------
   
   Light light; // Create an instance of the Light class
@@ -65,26 +69,49 @@ void setup() {
   delay(2000); // Wait for 2 seconds
   
   //------------ Ende Light Test----------------
-
+    
   //------------ Lock Test---------------------
   Lock lock; // Create an instance of the Lock class
-  lock.lock(); // Unlock the lock
+  lock.lock(); // Lock the lock
   Serial.print("getPosition: ");
   Serial.println(lock.getPosition()); // Print the current position of the lock
   Serial.print("getLocked: ");
   Serial.println(lock.getLocked()); // Print the current lock state
   delay(2000); // Wait for 2 seconds
-  lock.unlock(); // Lock the lock
-  Serial.print("getPosition after lock: ");
+  lock.unlock(); // Unlock the lock
+  Serial.print("getPosition after unlock: ");
   Serial.println(lock.getPosition()); // Print the current position of the lock after unlocking
-  Serial.print("getLocked after lock: ");
+  Serial.print("getLocked after unlock: ");
   Serial.println(lock.getLocked()); // Print the current lock state after unlocking
   delay(2000); // Wait for 2 seconds
 
   //------------ Ende Lock Test----------------
+  */
+
+  // Main Menu
+  Encoder encoder;
+
+  Display display; // Create an instance of the Display class
+  display.intro(); // Show the introduction screen
+  display.showheading("Main Menu"); // Show main menu heading
+  while(encoder.getbuttonState() == false) { // Wait for button press
+    if(encoder.getPosition() %2 == 0){
+      display.showmenulist("Pomodoro", "Time Lock", 0); // Show Pomodoro and Time Lock options
+    }else{
+      display.showmenulist("Pomodoro", "Time Lock", 1); // Show Time Lock and Pomodoro options
+    }
+  }
+  encoder.setbuttonState(false); // Reset button state
+  if(encoder.getPosition() %2 == 0){
+    pomodoro(); // Call the pomodoro function if even position
+  }else{
+    // Call the time lock function if odd position
+  }
+
 }
 
 void loop() {
+  /*
   //------------ Encoder Test---------------------
   Encoder encoder; // Create an instance of the Encoder class
   if(encoder.getbuttonState()) {
@@ -105,6 +132,7 @@ void loop() {
       display->showunlockgame(10, currentPosition, 3, 5); // Show game selection interface
     }
   }
+    */
   //-------------Ende Encoder Test-----------------
 
   

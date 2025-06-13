@@ -21,6 +21,7 @@ public:
     void unlock(); // Unlock the lock
     int getPosition(); // Get the current position of the servo
     bool getLocked(); // Check if the lock is currently locked
+    void setServoAngle(int angle); // Set the servo angle
 };
 
 #endif

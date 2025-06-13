@@ -21,6 +21,7 @@ public:
     
     // Public methods
     void clear();
+    void intro();	
     void showmenulist(const std::string& optionA, const std::string& optionB, int selectedOption);
     void showtime(short hours, short minutes);
     void showheading(const std::string& heading);
@@ -30,7 +31,8 @@ public:
     void showunlockgame(int pos_traget, int pos_player, int num_rounds, int num_max_rounds);
     void showputbackphone();
     void showlistfootnote(const std::string& optionA, const std::string& optionB, int selectedOption);
-    
+    void headline_time_footnote(const std::string& headline, short hours, short minutes, const std::string& footnote);
+    void putbackphone_listfootnote(const std::string& optionA, const std::string& optionB, int selectedOption);
 };
 
 const unsigned char locked_bitmap [] PROGMEM = {

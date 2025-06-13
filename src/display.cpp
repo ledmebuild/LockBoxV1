@@ -8,8 +8,11 @@ Display::Display(): dis(0x3c, SDA, SCL) { // Initialize display with I2C address
     
     // TODO: Initialize display settings
     dis.init();
-    dis.flipScreenVertically();
-    dis.setFont(ArialMT_Plain_24); // Große Schrift setzen
+    dis.flipScreenVertically();    
+}
+
+void Display::intro(){
+      dis.setFont(ArialMT_Plain_24); // Große Schrift setzen
       String text = "LockBoxV1!";
 
       // Breite und Höhe des Displays
@@ -25,8 +28,9 @@ Display::Display(): dis(0x3c, SDA, SCL) { // Initialize display with I2C address
     dis.drawString(x, y, text);
     dis.display();
     delay(1000);
-    
 }
+
+
 
 // Destructor
 Display::~Display() {
@@ -162,6 +166,7 @@ void Display::showlocking() {
     // TODO: Display locking status or animation
     dis.drawXbm(0, 0, 128, 64, locked_bitmap); // assuming your bitmap is 128x64
     dis.display();
+    showfootnote("Locking...");
 }
 
 
@@ -170,6 +175,7 @@ void Display::showunlocking() {
     // TODO: Display unlocking status or animation
     dis.drawXbm(0, 0, 128, 64, unlocked_bitmap); // assuming your bitmap is 128x64
     dis.display();
+    showfootnote("Unlocking...");
 }
 
 // Show game selection interface
@@ -228,4 +234,17 @@ void Display::showlistfootnote(const std::string& optionA, const std::string& op
     // Draw the footnote text
     dis.drawString(x, 52, String(combinedText.c_str()));
     dis.display();
+}
+
+// Show heading, time, and footnote together
+void Display::headline_time_footnote(const std::string& headline, short hours, short minutes, const std::string& footnote) {
+    showheading(headline);
+    showtime(hours, minutes);
+    showfootnote(footnote);
+}
+
+// Show put back phone with list footnote
+void Display::putbackphone_listfootnote(const std::string& optionA, const std::string& optionB, int selectedOption) {
+    showputbackphone();
+    showlistfootnote(optionA, optionB, selectedOption);
 }

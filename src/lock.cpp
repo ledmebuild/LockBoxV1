@@ -3,12 +3,7 @@
 #define servoPin 17 // Pin for the servo motor
 // Constructor
 Lock::Lock() {
-    ESP32PWM::allocateTimer(0);
-    ESP32PWM::allocateTimer(1);
-    ESP32PWM::allocateTimer(2);
-    ESP32PWM::allocateTimer(3);
-    myservo.setPeriodHertz(50);    // standard 50 hz servo
-    myservo.attach(servoPin, 1000, 2000); // attaches the servo on pin 18 to the servo object
+    pinMode(servoPin, OUTPUT);
 }
 
 // Destructor
@@ -20,21 +15,25 @@ Lock::~Lock() {
 void Lock::lock() {
     // TODO: Engage locking mechanism
     locked = true;
-    for (pos = 0; pos < 180; pos += 1) { // goes from 0 degrees to 180 degrees
+    pos = 90; // Reset position to 0 degrees
+    setServoAngle(pos);
+    /*
+    for (pos = 0; pos < 90; pos += 10) { // goes from 0 degrees to 90 degrees
         // in steps of 1 degree
-        myservo.write(pos);    // tell servo to go to position in variable 'pos'
-        delay(15);             // waits 15ms for the servo to reach the position
-    }
+        setServoAngle(pos);    // tell servo to go to position in variable 'pos'
+    }*/
 }
 
 // Unlock the lock
 void Lock::unlock() {
     // TODO: Disengage locking mechanism
     locked = false;
-    for (pos = 180; pos > 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-        myservo.write(pos);    // tell servo to go to position in variable 'pos'
-        delay(15);             // waits 15ms for the servo to reach the position
-    }
+    pos = 0; // Reset position to 0 degrees
+    setServoAngle(pos);
+    /*
+    for (pos = 90; pos > 0; pos -= 10) { // goes from 90 degrees to 0 degrees
+        setServoAngle(pos);    // tell servo to go to position in variable 'pos'
+    }*/
 }
 
 // Check if the lock is currently locked
@@ -45,4 +44,19 @@ bool Lock::getLocked() {
 
 int Lock::getPosition() {
     return pos; 
+}
+
+void Lock::setServoAngle(int angle) {
+  // Convert angle (0-180) to pulse width (500-2500 µs)
+  int pulseWidth = map(angle, 0, 180, 500, 2500);
+  
+  // Manual PWM generation - each cycle is 20ms (50Hz)
+  for (int i = 0; i < 20; i++) {  // Send several pulses to ensure servo moves
+    digitalWrite(servoPin, HIGH);
+    delayMicroseconds(pulseWidth);
+    digitalWrite(servoPin, LOW);
+    
+    // Calculate remaining time in the 20ms cycle
+    delayMicroseconds(20000 - pulseWidth);
+  }
 }
