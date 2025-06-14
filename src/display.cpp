@@ -190,6 +190,8 @@ void Display::showfootnote(const std::string& footnote) {
 // Show locking animation/message
 void Display::showlocking() {
     // TODO: Display locking status or animation
+    dis.clear(); // Clear the display before showing locking
+    dis.display();
     dis.drawXbm(0, 0, 128, 64, locked_bitmap); // assuming your bitmap is 128x64
     dis.display();
     showfootnote("Locking...");
@@ -199,6 +201,7 @@ void Display::showlocking() {
 // Show unlocking animation/message
 void Display::showunlocking() {
     // TODO: Display unlocking status or animation
+    dis.clear(); // Clear the display before showing unlocking
     dis.drawXbm(0, 0, 128, 64, unlocked_bitmap); // assuming your bitmap is 128x64
     dis.display();
     showfootnote("Unlocking...");
@@ -274,3 +277,19 @@ void Display::putbackphone_listfootnote(const std::string& optionA, const std::s
     showputbackphone();
     showlistfootnote(optionA, optionB, selectedOption);
 }
+
+void Display::info(const std::string& infoText) {
+    // Display information text
+    dis.setFont(ArialMT_Plain_10);
+    dis.setColor(BLACK);
+    dis.fillRect(0, 22, 128, 42); // Clear the middle area for the info text
+    dis.setColor(WHITE);
+    
+    // Center the info text
+    int textWidth = dis.getStringWidth(infoText.c_str());
+    int x = (128 - textWidth) / 2;
+    
+    // Draw the info text
+    dis.drawString(x, 22, String(infoText.c_str()));
+    dis.display();
+}   

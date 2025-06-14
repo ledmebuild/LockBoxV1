@@ -3,6 +3,8 @@
 #include "lock.h"
 #include "light.h"
 
+void unlockgame();
+
 void pomodoro(){
     Display display;
     Encoder encoder;
@@ -11,115 +13,264 @@ void pomodoro(){
     light.setColor({255, 255, 0}); // Set the color of the light yellow
     light.setBrightness(255); // Set the brightness to 100%
     light.turnOn(); // Turn on the light
-    short hours = 0; // Initialize hours
-    short minutes = 0; // Initialize minutes
-    short seconds = 0; // Initialize seconds
+    short hours_interval= 0; // Initialize hours_interval
+    short minutes_interval = 0; // Initialize minutes_interval
+    short seconds_interval = 0; // Initialize seconds_interval
     encoder.setPosition(0); // Reset encoder position
     display.showheading("Pomodoro Timer");
     int past_position = encoder.getPosition(); // Get the current position of the encoder
-    display.headline_time_footnote("set lock interval", encoder.getPosition(), minutes, seconds, 0, "set hours");
+    display.headline_time_footnote("set lock interval", encoder.getPosition(), minutes_interval, seconds_interval, 0, "set hours");
     while(encoder.getbuttonState() == false) { // Wait for button press
         if(past_position != encoder.getPosition()){
-            display.headline_time_footnote("set lock interval", encoder.getPosition(), minutes, seconds, 0, "set hours");
+            display.headline_time_footnote("set lock interval", encoder.getPosition(), minutes_interval, seconds_interval, 0, "set hours");
             past_position = encoder.getPosition(); // Update past position
             if(encoder.getPosition() < 0) {
                 encoder.setPosition(0); // Prevent negative position
             } else if(encoder.getPosition() > 99) {
-                encoder.setPosition(99); // Limit to 99 hours
+                encoder.setPosition(99); // Limit to 99 hours_interval
             }
         }
     }
-    hours = encoder.getPosition(); // Get the selected hours
-    encoder.setPosition(0); // Reset encoder position for minutes
+    hours_interval = encoder.getPosition(); // Get the selected hours_interval
+    encoder.setPosition(0); // Reset encoder position for minutes_interval
     display.clear(); // Clear the display
     encoder.setbuttonState(false);
-    past_position = encoder.getPosition(); // Reset past position for minutes
-    display.headline_time_footnote("set lock interval", hours, minutes, seconds, 1, "set minutes");
+    past_position = encoder.getPosition(); // Reset past position for minutes_interval
+    display.headline_time_footnote("set lock interval", hours_interval, minutes_interval, seconds_interval, 1, "set minutes");
     while(encoder.getbuttonState() == false) { // Wait for button press
         if(past_position != encoder.getPosition()){
             past_position = encoder.getPosition(); // Update past position
-            display.headline_time_footnote("set lock interval", hours, encoder.getPosition(), seconds, 1, "set minutes");
+            display.headline_time_footnote("set lock interval", hours_interval, encoder.getPosition(), seconds_interval, 1, "set minutes");
             if(encoder.getPosition() < 0) {
                 encoder.setPosition(0); // Prevent negative position
             } else if(encoder.getPosition() > 59) {
-                encoder.setPosition(59); // Limit to 59 minutes
+                encoder.setPosition(59); // Limit to 59 minutes_interval
             }
         }
     }
-    minutes = encoder.getPosition(); // Get the selected minutes
+    minutes_interval = encoder.getPosition(); // Get the selected minutes_interval
     encoder.setPosition(0); // Reset encoder position for confirmation
     display.clear(); // Clear the display
     encoder.setbuttonState(false);
     past_position = encoder.getPosition(); // Reset past position for confirmation
-    display.headline_time_footnote("set lock interval", hours, minutes, encoder.getPosition(), 2, "set seconds");
+    display.headline_time_footnote("set lock interval", hours_interval, minutes_interval, encoder.getPosition(), 2, "set seconds");
     while(encoder.getbuttonState() == false) { // Wait for button press
         if(past_position != encoder.getPosition()){
             past_position = encoder.getPosition(); // Update past position
-            display.headline_time_footnote("set lock interval", hours, minutes, encoder.getPosition(), 2, "set seconds");
+            display.headline_time_footnote("set lock interval", hours_interval, minutes_interval, encoder.getPosition(), 2, "set seconds");
             if(encoder.getPosition() < 0) {
                 encoder.setPosition(0); // Prevent negative position
             } else if(encoder.getPosition() > 59) {
-                encoder.setPosition(59); // Limit to 59 seconds
+                encoder.setPosition(59); // Limit to 59 seconds_interval
             }
         }
     }
-    seconds = encoder.getPosition(); // Get the selected seconds
+    seconds_interval = encoder.getPosition(); // Get the selected seconds_interval
+    encoder.setPosition(0); // Reset encoder position for confirmation
     display.clear(); // Clear the display
-    display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 0); // Show options to start or cancel
-    past_position = encoder.getPosition(); // Reset past position for confirmation
     encoder.setbuttonState(false);
+    past_position = encoder.getPosition(); // Reset past position for confirmation
+    short hours_pause = 0; // Initialize hours_pause
+    short minutes_pause = 0; // Initialize minutes_pause
+    short seconds_pause = 0; // Initialize seconds_pause
+    display.headline_time_footnote("set pause", hours_pause, minutes_pause, seconds_pause, 0, "set hours");
+    while(encoder.getbuttonState() == false) { // Wait for button press
+        if(past_position != encoder.getPosition()){
+            past_position = encoder.getPosition(); // Update past position
+            display.headline_time_footnote("set pause", encoder.getPosition(), minutes_pause, seconds_pause, 0, "set hours");
+            if(encoder.getPosition() < 0) {
+                encoder.setPosition(0); // Prevent negative position
+            } else if(encoder.getPosition() > 99) {
+                encoder.setPosition(99); // Limit to 99 hours_pause
+            }
+        }
+    }
+    hours_pause = encoder.getPosition(); // Get the selected hours_pause
+    encoder.setPosition(0); // Reset encoder position for minutes_pause
+    display.clear(); // Clear the display
+    encoder.setbuttonState(false);
+    past_position = encoder.getPosition(); // Reset past position for minutes_pause
+    display.headline_time_footnote("set pause", hours_pause, encoder.getPosition(), seconds_pause, 1, "set minutes");
+    while(encoder.getbuttonState() == false) { // Wait for button press
+        if(past_position != encoder.getPosition()){
+            past_position = encoder.getPosition(); // Update past position
+            display.headline_time_footnote("set pause", hours_pause, encoder.getPosition(), seconds_pause, 1, "set minutes");
+            if(encoder.getPosition() < 0) {
+                encoder.setPosition(0); // Prevent negative position
+            } else if(encoder.getPosition() > 59) {
+                encoder.setPosition(59); // Limit to 59 minutes_pause
+            }
+        }
+    }
+    minutes_pause = encoder.getPosition(); // Get the selected minutes_pause
+    encoder.setPosition(0); // Reset encoder position for seconds_pause
+    display.clear(); // Clear the display
+    encoder.setbuttonState(false);
+    past_position = encoder.getPosition(); // Reset past position for seconds_pause
+    display.headline_time_footnote("set pause", hours_pause, minutes_pause, encoder.getPosition(), 2, "set seconds");
+    while(encoder.getbuttonState() == false) { // Wait for button press
+        if(past_position != encoder.getPosition()){
+            past_position = encoder.getPosition(); // Update past position
+            display.headline_time_footnote("set pause", hours_pause, minutes_pause, encoder.getPosition(), 2, "set seconds");
+            if(encoder.getPosition() < 0) {
+                encoder.setPosition(0); // Prevent negative position
+            } else if(encoder.getPosition() > 59) {
+                encoder.setPosition(59); // Limit to 59 seconds_pause
+            }
+        }
+    }
+    seconds_pause = encoder.getPosition(); // Get the selected seconds_pause
+    encoder.setPosition(0); // Reset encoder position for confirmation
+    display.clear(); // Clear the display
+    encoder.setbuttonState(false);
+    display.showheading("Time seleted:"); // Show Pomodoro Timer heading
+    String info_text = "Interval: " + String(hours_interval) + "h " + String(minutes_interval) + "m " + String(seconds_interval) + "s\nPause: " + String(hours_pause) + "h " + String(minutes_pause) + "m " + String(seconds_pause) + "s"; // Create info text
+    display.info(info_text.c_str()); // Show the selected interval and pause time
+    display.showlistfootnote("continue", "cancel", 0); // Show options to continue or cancel
+    past_position = encoder.getPosition(); // Reset past position for confirmation
     while(encoder.getbuttonState() == false) { // Wait for button press
         if(past_position != encoder.getPosition()){
             past_position = encoder.getPosition(); // Update past position
             if(encoder.getPosition() % 2 == 0) {
-                display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 0); // Highlight Start Pomodoro
+                display.showlistfootnote("continue", "cancel", 0); // Highlight continue
             } else {
-                display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 1); // Highlight Cancel
+                display.showlistfootnote("continue", "cancel", 1); // Highlight cancel
             }
         }
     }
-    if(encoder.getPosition() % 2== 0){
-        //continue with the pomodoro timer
-    }else{
-        ESP.restart(); // Restart the ESP32 if Cancel is selected
-    }
-    display.clear(); // Clear the display
-    encoder.setbuttonState(false);
-    light.setColor({255, 0, 0}); // Set the color of the light red
-    light.setBrightness(255); // Set the brightness to 100%
-    light.turnOn(); // Turn on the light
-    display.showlocking(); // Show locking screen
-    Lock lock; // Create an instance of the Lock class
-    lock.lock(); // Lock the lock
-    light.turnOff(); // Turn off the light after locking
-    //calculate total time in milliseconds
-    unsigned long totalTime = (hours * 3600 + minutes * 60 + seconds) * 1000; // Convert hours, minutes, and seconds to milliseconds
-    unsigned long startTime = millis(); // Get the current time in milliseconds
-    unsigned long elapsedTime = 0; // Initialize elapsed time
-    display.clear(); // Clear the display
-    display.headline_time_footnote("Pomodoro Timer", hours, minutes, seconds, -1, "press for emergency"); // Show initial time
-    short past_hours = hours; // Store past hours for comparison
-    short past_minutes = minutes; // Store past minutes for comparison
-    short past_seconds = seconds; // Store past seconds for comparison
-    while(millis() - startTime < totalTime) { // Loop until the total time is reached
-        elapsedTime = millis() - startTime; // Calculate elapsed time
-        //calculate remaining hours
-        short remainingHours = (totalTime - elapsedTime) / 3600000; // Calculate remaining hours
-        short remainingMinutes = (totalTime - elapsedTime) / 60000; // Calculate remaining minutes
-        short remainingSeconds = ((totalTime - elapsedTime) % 60000) / 1000; // Calculate remaining seconds
-        if(remainingHours != past_hours || remainingMinutes != past_minutes || remainingSeconds != past_seconds) { // Check if time has changed
-            past_hours = remainingHours; // Update past hours
-            past_minutes = remainingMinutes; // Update past minutes
-            past_seconds = remainingSeconds; // Update past seconds
-            display.showtime(remainingHours, remainingMinutes, remainingSeconds, -1); // Show updated time on the display
+    while(true){
+        display.clear(); // Clear the display
+        encoder.setPosition(0); // Reset encoder position for confirmation
+        display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 0); // Show options to start or cancel
+        past_position = encoder.getPosition(); // Reset past position for confirmation
+        encoder.setbuttonState(false);
+        while(encoder.getbuttonState() == false) { // Wait for button press
+            if(past_position != encoder.getPosition()){
+                past_position = encoder.getPosition(); // Update past position
+                if(encoder.getPosition() % 2 == 0) {
+                    display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 0); // Highlight Start Pomodoro
+                } else {
+                    display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 1); // Highlight Cancel
+                }
+            }
+        }
+        if(encoder.getPosition() % 2== 0){
+            //continue with the pomodoro timer
+        }else{
+            ESP.restart(); // Restart the ESP32 if Cancel is selected
+        }
+        display.clear(); // Clear the display
+        encoder.setbuttonState(false);
+        light.setColor({255, 0, 0}); // Set the color of the light red
+        light.setBrightness(255); // Set the brightness to 100%
+        light.turnOn(); // Turn on the light
+        display.showlocking(); // Show locking screen
+        Lock lock; // Create an instance of the Lock class
+        lock.lock(); // Lock the lock
+        light.turnOff(); // Turn off the light after locking
+        //calculate total time in milliseconds_interval
+        unsigned long totalTime_interval = (hours_interval * 3600 + minutes_interval * 60 + seconds_interval) * 1000; // Convert hours_interval, minutes_interval, and seconds_interval to milliseconds_interval
+        unsigned long startTime = millis(); // Get the current time in milliseconds_interval
+        unsigned long elapsedTime = 0; // Initialize elapsed time
+        display.clear(); // Clear the display
+        display.headline_time_footnote("Pomodoro Timer", hours_interval, minutes_interval, seconds_interval, -1, "press for emergency"); // Show initial time
+        short past_hours_interval = hours_interval; // Store past hours_interval for comparison
+        short past_minutes_interval = minutes_interval; // Store past minutes_interval for comparison
+        short past_seconds_interval = seconds_interval; // Store past seconds_interval for comparison
+        while(millis() - startTime < totalTime_interval) { // Loop until the total time is reached
+            elapsedTime = millis() - startTime; // Calculate elapsed time
+            //calculate remaining hours_interval
+            short remaininghours_interval = (totalTime_interval - elapsedTime) / 3600000; // Calculate remaining hours_interval
+            short remainingminutes_interval = (totalTime_interval - elapsedTime) / 60000; // Calculate remaining minutes_interval
+            short remainingseconds_interval = ((totalTime_interval - elapsedTime) % 60000) / 1000; // Calculate remaining seconds_interval
+            if(remaininghours_interval != past_hours_interval || remainingminutes_interval != past_minutes_interval || remainingseconds_interval != past_seconds_interval) { // Check if time has changed
+                past_hours_interval = remaininghours_interval; // Update past hours_interval
+                past_minutes_interval = remainingminutes_interval; // Update past minutes_interval
+                past_seconds_interval = remainingseconds_interval; // Update past seconds_interval
+                display.showtime(remaininghours_interval, remainingminutes_interval, remainingseconds_interval, -1); // Show updated time on the display
+            }
+            if(encoder.getbuttonState() == true) { // Check if the button is pressed
+                display.clear(); // Clear the display
+                encoder.setbuttonState(false); // Reset button state
+                unlockgame(); // Call the unlockgame function
+                display.clear(); // Clear the display
+                display.showunlocking(); // Show unlocking screen
+                light.setColor({0, 255, 0}); // Set the color to green
+                light.setBrightness(255); // Set the brightness to 100%
+                light.turnOn(); // Turn on the light to indicate completion
+                lock.unlock(); // Unlock the lock
+                ESP.restart(); // Restart the ESP32
+            }
+        }
+        
+        display.clear(); // Clear the display
+        light.setColor({0, 255, 0}); // Set the color to green
+        light.setBrightness(255); // Set the brightness to 100%
+        light.turnOn(); // Turn on the light to indicate completion
+        display.showunlocking(); // Show unlocking screen
+        lock.unlock(); // Unlock the lock
+
+        unsigned long totalTime_pause = (hours_pause * 3600 + minutes_pause * 60 + seconds_pause) * 1000; // Convert hours_pause, minutes_pause, and seconds_pause to milliseconds
+        startTime = millis(); // Get the current time in milliseconds
+        elapsedTime = 0; // Initialize elapsed time
+        display.clear(); // Clear the display
+        display.headline_time_footnote("Pause Timer", hours_pause, minutes_pause, seconds_pause, -1, "press to go back to menu"); // Show initial time
+        short past_hours_pause = hours_pause; // Store past hours_pause for comparison
+        short past_minutes_pause = minutes_pause; // Store past minutes_pause for comparison
+        short past_seconds_pause = seconds_pause; // Store past seconds_pause for comparison
+        while(millis() - startTime < totalTime_pause) { // Loop until the total time is reached
+            elapsedTime = millis() - startTime; // Calculate elapsed time
+            //calculate remaining hours_interval
+            short remaininghours_pause = (totalTime_pause - elapsedTime) / 3600000; // Calculate remaining hours_pause
+            short remainingminutes_pause = (totalTime_pause - elapsedTime) / 60000; // Calculate remaining minutes_pause
+            short remainingseconds_pause = ((totalTime_pause - elapsedTime) % 60000) / 1000; // Calculate remaining seconds_pause
+            if(remaininghours_pause != past_hours_pause || remainingminutes_pause != past_minutes_pause || remainingseconds_pause != past_seconds_pause) { // Check if time has changed
+                past_hours_pause = remaininghours_pause; // Update past hours_pause
+                past_minutes_pause = remainingminutes_pause; // Update past minutes_pause
+                past_seconds_pause = remainingseconds_pause; // Update past seconds_pause
+                display.showtime(remaininghours_pause, remainingminutes_pause, remainingseconds_pause, -1); // Show updated time on the display
+            }
+            if(encoder.getbuttonState() == true) { // Check if the button is pressed
+                encoder.setbuttonState(false); // Reset button state
+                display.clear(); // Clear the display
+                ESP.restart(); // Restart the ESP32
+            }
         }
     }
+}
+
+void unlockgame(){
+    Display display; // Create an instance of the Display class
+    Encoder encoder; // Create an instance of the Encoder class
+    display.showheading("Select Target"); // Show the heading for the unlock game
+    int pos_target = random(0, 126); // Generate a new target position randomly
+    encoder.setPosition(0); // Reset encoder position
+    encoder.setbuttonState(false); // Reset button state
+    int pos_player = encoder.getPosition(); // Player's current position
+    int past_position = pos_player; // Store the previous position of the player
+    int num_rounds = 0; // Number of rounds in the game
+    int num_max_rounds = 5; // Maximum number of rounds in the game
     
-    display.clear(); // Clear the display
-    light.setColor({0, 255, 0}); // Set the color to green
-    light.setBrightness(255); // Set the brightness to 100%
-    light.turnOn(); // Turn on the light to indicate completion
-    display.showunlocking(); // Show unlocking screen
-    lock.unlock(); // Unlock the lock
-    ESP.restart(); // Restart the ESP32 after completion
+    display.showunlockgame(pos_target, pos_player, num_rounds, num_max_rounds); // Show the game interface
+    while(num_rounds <= num_max_rounds) { // Loop until the maximum number of rounds is reached
+        if(past_position != encoder.getPosition()) { // Check if the position has changed
+            if(encoder.getPosition() < 0) {
+                encoder.setPosition(0); // Prevent negative position
+            } else if(encoder.getPosition() > 127) {
+                encoder.setPosition(127); // Limit to 127 for the game
+            }
+            past_position = encoder.getPosition(); // Update the previous position
+            pos_player = encoder.getPosition(); // Get the current position of the player
+            display.showunlockgame(pos_target, pos_player, num_rounds, num_max_rounds); // Update the game interface
+            encoder.setbuttonState(false); // Reset button state after processing
+        }
+        if((encoder.getPosition() == pos_target) && (encoder.getbuttonState() == true)) { // Check if the player has reached the target position and pressed the button
+                encoder.setbuttonState(false); // Reset button state
+                num_rounds++; // Increment the number of rounds if the player reaches the target position
+                pos_target = random(0, 126); // Generate a new target position randomly
+                encoder.setPosition(0); // Reset the player's position
+                display.showunlockgame(pos_target, encoder.getPosition(), num_rounds, num_max_rounds); // Update the game interface
+        }
+    }    
+    display.clear(); // Clear the display after the game ends
 }

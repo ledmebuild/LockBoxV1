@@ -21,7 +21,8 @@ public:
     
     // Public methods
     void clear();
-    void intro();	
+    void intro();
+    void info(const std::string& infoText);	
     void showmenulist(const std::string& optionA, const std::string& optionB, int selectedOption);
     void showtime(short hours, short minutes, short seconds, short marked);
     void showheading(const std::string& heading);

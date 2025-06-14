@@ -92,6 +92,8 @@ void setup() {
   Encoder encoder;
   Light light; // Create an instance of the Light class
   Display display; // Create an instance of the Display class
+  Lock lock; // Create an instance of the Lock class
+  lock.unlock(); // Unlock the lock at the start
   light.setColor({0, 255, 0}); // Set the color of the light to green
   light.setBrightness(255); // Set the brightness to 100%
   light.turnOn(); // Turn on the light
