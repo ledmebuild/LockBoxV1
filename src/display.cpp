@@ -41,6 +41,7 @@ Display::~Display() {
 void Display::clear() {
     // TODO: Clear display content
     dis.clear();
+    dis.display(); // Ensure the display is updated
 }
 
 // Show menu list with two options and highlight selected one
