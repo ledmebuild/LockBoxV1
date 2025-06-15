@@ -118,33 +118,7 @@ void setup() {
 
 }
 
-void loop() {
-  /*
-  //------------ Encoder Test---------------------
-  Encoder encoder; // Create an instance of the Encoder class
-  if(encoder.getbuttonState()) {
-    Serial.println("Button is pressed");
-    encoder.setbuttonState(false); // Set the button state to false
-    encoder.setPosition(0); // Reset the encoder position
-  }
-
-  static int lastCounter = 0;
-  int currentPosition = encoder.getPosition(); // Get the current position of the encoder
-  // If count has changed print the new value to serial
-  if(currentPosition != lastCounter){
-    Serial.println(currentPosition);
-    lastCounter = currentPosition;
-    if(currentPosition%2 == 0){
-      display->showunlockgame(10, currentPosition, 3, 5); // Show game selection interface
-    }else{
-      display->showunlockgame(10, currentPosition, 3, 5); // Show game selection interface
-    }
-  }
-    */
-  //-------------Ende Encoder Test-----------------
-
-  
-}
+void loop() {}
 
 
 

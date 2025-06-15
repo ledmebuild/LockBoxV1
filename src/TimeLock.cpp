@@ -93,16 +93,16 @@ void timelock(){
     }
     display.clear(); // Clear the display
     encoder.setPosition(0); // Reset encoder position for confirmation
-    display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 0); // Show options to start or cancel
+    display.putbackphone_listfootnote("Start Time Lock", "Cancel", 0); // Show options to start or cancel
     past_position = encoder.getPosition(); // Reset past position for confirmation
     encoder.setbuttonState(false);
     while(encoder.getbuttonState() == false) { // Wait for button press
         if(past_position != encoder.getPosition()){
             past_position = encoder.getPosition(); // Update past position
             if(encoder.getPosition() % 2 == 0) {
-                display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 0); // Highlight Start Pomodoro
+                display.putbackphone_listfootnote("Start Time Lock", "Cancel", 0); // Highlight Start Pomodoro
             } else {
-                display.putbackphone_listfootnote("Start Pomodoro", "Cancel", 1); // Highlight Cancel
+                display.putbackphone_listfootnote("Start Time Lock", "Cancel", 1); // Highlight Cancel
             }
         }
     }
