@@ -7,7 +7,7 @@ class Lock {
 private:
     // Private member variables if needed
     bool locked; // State of the lock (locked or unlocked)
-    Servo myservo;
+    Servo sg90;
     int pos;
 public:
     // Constructor

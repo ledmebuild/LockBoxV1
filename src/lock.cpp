@@ -1,9 +1,12 @@
+#include <ESP32Servo.h>
 #include "lock.h"
 
-#define servoPin 17 // Pin for the servo motor
+#define PIN_SG90 17 // Pin for the servo motor
+
 // Constructor
 Lock::Lock() {
-    pinMode(servoPin, OUTPUT);
+  sg90.setPeriodHertz(50); // PWM frequency for SG90
+  sg90.attach(PIN_SG90, 500, 2400); // Minimum and maximum pulse width (in µs) to go from 0° to 180
 }
 
 // Destructor
@@ -13,10 +16,13 @@ Lock::~Lock() {
 
 // Lock the lock
 void Lock::lock() {
-    // TODO: Engage locking mechanism
     locked = true;
-    pos = 90; // Reset position to 0 degrees
-    setServoAngle(pos);
+    pos = 90;
+
+    for (int pos = 0; pos <= 180; pos += 1) {
+        sg90.write(pos);
+        delay(10);
+    }
     /*
     for (pos = 0; pos < 90; pos += 10) { // goes from 0 degrees to 90 degrees
         // in steps of 1 degree
@@ -26,14 +32,13 @@ void Lock::lock() {
 
 // Unlock the lock
 void Lock::unlock() {
-    // TODO: Disengage locking mechanism
     locked = false;
-    pos = 0; // Reset position to 0 degrees
-    setServoAngle(pos);
-    /*
-    for (pos = 90; pos > 0; pos -= 10) { // goes from 90 degrees to 0 degrees
-        setServoAngle(pos);    // tell servo to go to position in variable 'pos'
-    }*/
+    pos = 0;
+    // Rotation from 180° to 0
+    for (int pos = 180; pos >= 0; pos -= 1) {
+        sg90.write(pos);
+        delay(10);
+    }
 }
 
 // Check if the lock is currently locked
@@ -44,19 +49,4 @@ bool Lock::getLocked() {
 
 int Lock::getPosition() {
     return pos; 
-}
-
-void Lock::setServoAngle(int angle) {
-  // Convert angle (0-180) to pulse width (500-2500 µs)
-  int pulseWidth = map(angle, 0, 180, 500, 2500);
-  
-  // Manual PWM generation - each cycle is 20ms (50Hz)
-  for (int i = 0; i < 20; i++) {  // Send several pulses to ensure servo moves
-    digitalWrite(servoPin, HIGH);
-    delayMicroseconds(pulseWidth);
-    digitalWrite(servoPin, LOW);
-    
-    // Calculate remaining time in the 20ms cycle
-    delayMicroseconds(20000 - pulseWidth);
-  }
 }

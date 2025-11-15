@@ -2,9 +2,10 @@
 #define ENCODER_H
 
 // Define rotary encoder pins
-#define ENC_A A0
-#define ENC_B A1
-#define ENC_PUSH A2
+#define ENC_PUSH 34
+#define ENC_A 35
+#define ENC_B 32
+
 
 class Encoder {
 private:

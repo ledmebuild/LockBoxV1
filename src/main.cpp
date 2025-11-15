@@ -10,7 +10,7 @@
 Display* display = nullptr;// Pointer to Display instance
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Setup complete.");
   
   //------------ Display Test---------------------
@@ -70,7 +70,7 @@ void setup() {
   delay(2000); // Wait for 2 seconds
   
   //------------ Ende Light Test----------------
-    
+    */
   //------------ Lock Test---------------------
   Lock lock; // Create an instance of the Lock class
   lock.lock(); // Lock the lock
@@ -85,10 +85,8 @@ void setup() {
   Serial.print("getLocked after unlock: ");
   Serial.println(lock.getLocked()); // Print the current lock state after unlocking
   delay(2000); // Wait for 2 seconds
-
   //------------ Ende Lock Test----------------
-  */
-
+  /*
   // Main Menu
   Encoder encoder;
   Light light; // Create an instance of the Light class
@@ -115,6 +113,8 @@ void setup() {
     // Call the time lock function if odd position
     timelock();
   }
+
+  */
 
 }
 
